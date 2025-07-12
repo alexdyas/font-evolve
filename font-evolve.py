@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-# font-evolve
+# -------------------------------------------------------------------------------
+#
+# File :            font-evolve.py
+#
+# Description :     Experiments in evolving a font character
+#
+# -------------------------------------------------------------------------------
 
 import random
 import pprint
@@ -9,31 +15,35 @@ import copy
 
 random.seed()
 
-jitter = 2
+jitter = 1
 rows, cols = 10, 10
 themodel = [[0 for _ in range(cols)] for _ in range(rows)]
-themodel = [[0, 0, 1, 1, 1, 1, 1, 1, 0, 0],
-            [0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
-            [0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
-            [0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
-            [0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
-            [0, 0, 1, 1, 1, 1, 1, 1, 0, 0],
-            [0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
-            [0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
-            [0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
-            [0, 0, 1, 0, 0, 0, 0, 1, 0, 0]]
+themodel = [
+    [0, 0, 1, 1, 1, 1, 1, 1, 0, 0],
+    [0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
+    [0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
+    [0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
+    [0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
+    [0, 0, 1, 1, 1, 1, 1, 1, 0, 0],
+    [0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
+    [0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
+    [0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
+    [0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
+]
 
 thetest = [[0 for _ in range(cols)] for _ in range(rows)]
-thetest = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+thetest = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+]
 
 
 def compare_arrays(model, test):
@@ -63,6 +73,17 @@ def iterate(test, amount):
     return test
 
 
+def display_array(thearray):
+    for r in range(rows):
+        for c in range(cols):
+            if thearray[r][c] == 1:
+                print("█", end="")
+            else:
+                print(" ", end="")
+        print()
+    return 0
+
+
 thetest = randomise(thetest)
 
 currentscore = 0
@@ -71,16 +92,12 @@ while True:
     if currentscore == 100:
         print("Evolved!")
         break
-    os.system('clear')
+    os.system("clear")
     currentscore = int(compare_arrays(themodel, thetest))
     print(f"Current score - {currentscore}")
     iteratedtest = copy.deepcopy(thetest)
+    display_array(thetest)
     iteratedtest = iterate(iteratedtest, jitter)
-    print("-------------------------")
-    pprint.pprint(themodel)
-    print("")
-    pprint.pprint(thetest)
-    print("-------------------------")
     newscore = int(compare_arrays(themodel, iteratedtest))
     print(f"New score - {newscore}")
     print(f"Iterations - {iterations}")
@@ -88,5 +105,3 @@ while True:
         thetest = copy.deepcopy(iteratedtest)
     iterations = iterations + 1
 #    time.sleep(.3)
-
-
