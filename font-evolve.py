@@ -15,7 +15,7 @@ import copy
 
 random.seed()
 
-jitter = 1
+jitter = 4
 rows, cols = 10, 10
 themodel = [[0 for _ in range(cols)] for _ in range(rows)]
 themodel = [
@@ -101,7 +101,7 @@ while True:
     newscore = int(compare_arrays(themodel, iteratedtest))
     print(f"New score - {newscore}")
     print(f"Iterations - {iterations}")
-    if newscore > currentscore:
+    if newscore >= currentscore:
         thetest = copy.deepcopy(iteratedtest)
     iterations = iterations + 1
 #    time.sleep(.3)
